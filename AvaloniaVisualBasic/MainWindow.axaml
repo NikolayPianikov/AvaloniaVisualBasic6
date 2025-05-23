@@ -5,9 +5,11 @@
         xmlns:avaloniaVisualBasic="clr-namespace:AvaloniaVisualBasic"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="AvaloniaVisualBasic.MainWindow"
-        x:DataType="avaloniaVisualBasic:MainViewViewModel"
         Icon="/vb6icon.ico"
         ClosingBehavior="OwnerAndChildWindows"
-        Title="{CompiledBinding Title}">
+        DataContext="{StaticResource Composition}"
+        Design.DataContext="{d:DesignInstance avaloniaVisualBasic:Composition}"
+        x:DataType="avaloniaVisualBasic:Composition"
+        Title="{CompiledBinding Root.Title}">
     <avaloniaVisualBasic:MainView x:Name="MainView" />
 </ClassicWindow>

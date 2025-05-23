@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Threading.Tasks;
 using Avalonia;
@@ -12,6 +13,7 @@ using AvaloniaVisualBasic.Runtime.Interpreter;
 using AvaloniaVisualBasic.VisualDesigner;
 using Classic.Avalonia.Theme;
 using Classic.CommonControls.Dialogs;
+using CommunityToolkit.Mvvm.ComponentModel;
 using R3;
 
 namespace AvaloniaVisualBasic;
@@ -27,9 +29,6 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        var rootViewModel = new DISetup().Root;
-        Static.RootViewModel = rootViewModel;
-
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             // Line below is needed to remove Avalonia data validation.
@@ -39,19 +38,17 @@ public partial class App : Application
             if (Static.ForceSingleView)
             {
                 Static.SingleView = true;
-                Static.MainView = new MainView
-                {
-                    DataContext = rootViewModel
-                };
-
-                desktop.MainWindow = new ClassicWindow()
+                Static.MainView = new MainView();
+                desktop.MainWindow = new ClassicWindow
                 {
                     Content = Static.MainView
                 };
 
-                rootViewModel.ObservePropertyChanged(x => x.Title)
-                    .Subscribe(title => desktop.MainWindow.Title = title);
-
+                if (desktop.MainWindow.DataContext is MainViewViewModel rootViewModel)
+                {
+                    rootViewModel.ObservePropertyChanged(x => x.Title)
+                        .Subscribe(title => desktop.MainWindow.Title = title);
+                }
 #if DEBUG
                 desktop.MainWindow.AttachDevTools();
 #endif
@@ -60,10 +57,7 @@ public partial class App : Application
             }
             else
             {
-                var mainWindow = new MainWindow
-                {
-                    DataContext = rootViewModel
-                };
+                var mainWindow = new MainWindow();
                 desktop.MainWindow = mainWindow;
                 Static.SingleView = false;
                 Static.MainView = mainWindow.MainView;
@@ -72,10 +66,7 @@ public partial class App : Application
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
             Static.SingleView = true;
-            singleViewPlatform.MainView = Static.MainView = new MainView
-            {
-                DataContext = rootViewModel
-            };
+            singleViewPlatform.MainView = Static.MainView = new MainView();
             Static.MainView.WindowInitialized();
         }
 

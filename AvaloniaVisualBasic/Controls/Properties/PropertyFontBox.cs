@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Interactivity;
+using AvaloniaVisualBasic.IDE;
 using AvaloniaVisualBasic.Runtime.BuiltinTypes;
 using AvaloniaVisualBasic.Utils;
 using Classic.CommonControls.Dialogs;
@@ -14,6 +15,7 @@ public class PropertyFontBox : TemplatedControl
 {
     public static readonly StyledProperty<VBFont> FontProperty = AvaloniaProperty.Register<PropertyFontBox, VBFont>("Font", defaultBindingMode: BindingMode.TwoWay, defaultValue: VBFont.Default);
     public static readonly DirectProperty<PropertyFontBox, string?> FontNameProperty = AvaloniaProperty.RegisterDirect<PropertyFontBox, string?>("FontName", o => o.FontName);
+    public static readonly StyledProperty<WindowManager> WindowManagerProperty = AvaloniaProperty.Register<PropertyFontBox, WindowManager>("WindowManager");
 
     public string? FontName
     {
@@ -24,6 +26,12 @@ public class PropertyFontBox : TemplatedControl
     {
         get => GetValue(FontProperty);
         set => SetValue(FontProperty, value);
+    }
+
+    public WindowManager WindowManager
+    {
+        get => GetValue(WindowManagerProperty);
+        set => SetValue(WindowManagerProperty, value);
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -37,7 +45,7 @@ public class PropertyFontBox : TemplatedControl
     {
         async Task OpenFontWindow()
         {
-            var result = await Static.RootViewModel.WindowManager.ShowFontDialog(new FontDialogResult(Font.FontFamily, Font.Style, Font.Weight, Font.Size));
+            var result = await WindowManager.ShowFontDialog(new FontDialogResult(Font.FontFamily, Font.Style, Font.Weight, Font.Size));
             if (result != null)
             {
                 SetCurrentValue(FontProperty, new VBFont(result.Family, (int)result.Size, result.Weight, result.Style));

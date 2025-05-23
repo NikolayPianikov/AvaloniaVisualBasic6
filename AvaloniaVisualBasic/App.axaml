@@ -1,12 +1,16 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:avaloniaVisualBasic="clr-namespace:AvaloniaVisualBasic"
+             xmlns:vb="clr-namespace:AvaloniaVisualBasic"
              xmlns:common="clr-namespace:Classic.CommonControls;assembly=Classic.CommonControls.Avalonia"
              x:Class="AvaloniaVisualBasic.App"
              RequestedThemeVariant="{x:Static ClassicTheme.Standard}">
 
     <Application.Resources>
         <ResourceDictionary>
+            <!--Creates a shared resource of type Composition and with key "Composition",
+            which will be further used as a data context in the views.-->
+            <vb:Composition x:Key="Composition"  />
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="Controls/MDI/MDIWindow.axaml" />
                 <ResourceInclude Source="Controls/MDI/MDIHost.axaml" />
@@ -34,6 +38,6 @@
     </Application.Styles>
 
     <Application.DataTemplates>
-        <avaloniaVisualBasic:ViewLocator />
+        <vb:ViewLocator />
     </Application.DataTemplates>
 </Application>

@@ -18,9 +18,9 @@ public partial class MainView : UserControl
 
     public MainView WindowInitialized()
     {
-        if (DataContext is MainViewViewModel vm)
+        if (DataContext is Composition composition)
         {
-            vm.OnInitialized();
+            composition.Root.OnInitialized();
         }
         return this;
     }

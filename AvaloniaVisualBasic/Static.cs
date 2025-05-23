@@ -15,6 +15,4 @@ public class Static
     public static bool SingleView { get; set; }
 
     public static MainView MainView { get; set; } = null!;
-
-    public static MainViewViewModel RootViewModel { get; set; } = null!;
 }

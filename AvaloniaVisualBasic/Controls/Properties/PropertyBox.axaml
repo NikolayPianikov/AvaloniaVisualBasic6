@@ -4,10 +4,11 @@
                     xmlns:commonControls="clr-namespace:Classic.CommonControls;assembly=Classic.CommonControls.Avalonia"
                     xmlns:builtinTypes="clr-namespace:AvaloniaVisualBasic.Runtime.BuiltinTypes;assembly=AvaloniaVisualBasic.Runtime"
                     xmlns:converters="clr-namespace:AvaloniaVisualBasic.Converters"
+                    xmlns:avaloniaVisualBasic="clr-namespace:AvaloniaVisualBasic"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <StackPanel Orientation="Vertical" Height="200" Width="300">
-            <controls:PropertyFontBox Font="" FontName="" />
+            <controls:PropertyFontBox Font="" FontName="" WindowManager="{Binding Source={StaticResource Composition}, DataType=avaloniaVisualBasic:Composition, Path=Root.WindowManager}" />
             <controls:PropertyEnumBox PropertyType="{x:Type builtinTypes:BorderStyles}" />
             <controls:PropertyColorBox
                 VerticalAlignment="Top"
@@ -43,7 +44,7 @@
         </Setter>
         <Setter Property="FontTemplate">
             <DataTemplate>
-                <controls:PropertyFontBox Font="{Binding $parent[controls:PropertyBox].Object, Mode=TwoWay}" />
+                <controls:PropertyFontBox Font="{Binding $parent[controls:PropertyBox].Object, Mode=TwoWay}" WindowManager="{Binding Source={StaticResource Composition}, DataType=avaloniaVisualBasic:Composition, Path=Root.WindowManager}" />
             </DataTemplate>
         </Setter>
         <Setter Property="StringListTemplate">
